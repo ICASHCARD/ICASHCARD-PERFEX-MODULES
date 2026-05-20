@@ -1,0 +1,6 @@
+# Ignore everything
+*
+
+# Except icash_tools
+!icash_tools/
+!.gitignore
