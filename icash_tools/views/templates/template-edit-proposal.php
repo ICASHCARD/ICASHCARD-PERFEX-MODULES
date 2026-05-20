@@ -148,11 +148,11 @@
                 <label for="paymentStatus">Status do Link de Pagamento</label>
                 <select id="paymentStatus" name="payment_message" class="form-control" required>
                     <option value="" disabled <?= empty($proposal->payment_message) ? 'selected' : '' ?>>Selecione</option>
-                    <option value="1" <?= $proposal->payment_message == '1' ? 'selected' : '' ?>>Pendente</option>
-                    <option value="2" <?= $proposal->payment_message == '2' ? 'selected' : '' ?>>Pagamento Aprovado</option>
-                    <option value="3" <?= $proposal->payment_message == '3' ? 'selected' : '' ?>>Negado</option>
-                    <option value="4" <?= $proposal->payment_message == '4' ? 'selected' : '' ?>>Expirado</option>
-                    <option value="5" <?= $proposal->payment_message == '5' ? 'selected' : '' ?>>Cancelado</option>
+                    <option value="1" <?= $proposal->payment_message == '1' ? 'selected' : 'disabled' ?>>Pendente</option>
+                    <option value="2" <?= $proposal->payment_message == '2' ? 'selected' : 'disabled' ?>>Pagamento Aprovado</option>
+                    <option value="3" <?= $proposal->payment_message == '3' ? 'selected' : 'disabled' ?>>Negado</option>
+                    <option value="4" <?= $proposal->payment_message == '4' ? 'selected' : 'disabled' ?>>Expirado</option>
+                    <option value="5" <?= $proposal->payment_message == '5' ? 'selected' : 'disabled' ?>>Cancelado</option>
                 </select>
             </div>
         </div>
