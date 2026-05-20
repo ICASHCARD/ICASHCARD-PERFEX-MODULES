@@ -238,6 +238,11 @@ class Gerenciar_propostas extends AdminController
 
         $total = $qty * $parcela;
 
+        // Atualizar campos de pagamento se foram enviados
+        $payment_status = $this->input->post('payment_status');
+        $payment_message = $this->input->post('payment_message');
+        $bank_message = $this->input->post('bank_message');
+        $payment_description = $this->input->post('payment_description');
 
         $updateData = [
             'rel_id'        => $proposal->rel_id,
@@ -252,6 +257,14 @@ class Gerenciar_propostas extends AdminController
                 'proposal'  => $custom_fields
             ]
         ];
+
+        // Adicionar dados de pagamento ao updateData se foram enviados
+        if ($payment_status !== null) {
+            $updateData['payment_status'] = $payment_status;
+            $updateData['payment_message'] = $payment_message;
+            $updateData['bank_message'] = $bank_message;
+            $updateData['payment_description'] = $payment_description;
+        }
 
         // Sincroniza nome do cliente real (tblclients) e contato principal.
         // O modal alterava apenas "proposal_to" (campo "Para" da proposta).

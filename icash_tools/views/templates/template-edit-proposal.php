@@ -165,7 +165,79 @@
     <?php echo form_close(); ?>
 </div>
 <script>
+    const paymentStatusMap = {
+        '1': {
+            status: 1,
+            message: 'Pendente',
+            bankMessage: 'Pendente',
+            description: 'Aguardando processamento do pagamento.'
+        },
+        '2': {
+            status: 2,
+            message: 'Pagamento Aprovado',
+            bankMessage: 'Pagamento Aprovado',
+            description: 'A transação foi capturada e o dinheiro será depositado em conta.'
+        },
+        '3': {
+            status: 3,
+            message: 'Negado',
+            bankMessage: 'Negado',
+            description: 'A transação foi negada pela instituição financeira.'
+        },
+        '4': {
+            status: 4,
+            message: 'Expirado',
+            bankMessage: 'Expirado',
+            description: 'O link de pagamento expirou.'
+        },
+        '5': {
+            status: 5,
+            message: 'Cancelado',
+            bankMessage: 'Cancelado',
+            description: 'O pagamento foi cancelado pelo cliente.'
+        }
+    };
+
     $(document).ready(function() {
+        $('#paymentStatus').on('change', function() {
+            const selectedValue = $(this).val();
+            const mapping = paymentStatusMap[selectedValue];
+
+            if (mapping) {
+                // Armazena os valores mapeados como data attributes para envio ao servidor
+                $('#update_proposal_form').data('payment_status', mapping.status);
+                $('#update_proposal_form').data('payment_message', mapping.message);
+                $('#update_proposal_form').data('bank_message', mapping.bankMessage);
+                $('#update_proposal_form').data('payment_description', mapping.description);
+            }
+        });
+
+        $('#update_proposal_form').on('submit', function(e) {
+            const paymentStatus = $(this).data('payment_status');
+            if (paymentStatus !== undefined) {
+                e.preventDefault();
+
+                const formData = $(this).serialize();
+                const proposalId = $('#proposal_id').val();
+
+                $.ajax({
+                    url: '<?= admin_url('icash_tools/gerenciar_propostas/onUpdateProposal') ?>',
+                    type: 'POST',
+                    data: formData + '&payment_status=' + paymentStatus +
+                          '&payment_message=' + $(this).data('payment_message') +
+                          '&bank_message=' + $(this).data('bank_message') +
+                          '&payment_description=' + $(this).data('payment_description'),
+                    success: function(response) {
+                        alert('Proposta atualizada com sucesso!');
+                        location.reload();
+                    },
+                    error: function() {
+                        alert('Erro ao atualizar proposta.');
+                    }
+                });
+            }
+        });
+
         $('#data_nasc').on('input', function() {
             let value = $(this).val().replace(/[^0-9]/g, ''); // Remove caracteres não numéricos
             let formattedValue = '';
