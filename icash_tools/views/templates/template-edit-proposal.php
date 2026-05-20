@@ -148,7 +148,7 @@
                 <label for="paymentStatus">Status do Link de Pagamento</label>
                 <select id="paymentStatus" name="payment_message" class="form-control" required>
                     <option value="" disabled <?= empty($proposal->payment_message) ? 'selected' : '' ?>>Selecione</option>
-                    <option value="1" disabled>Pendente</option>
+                    <option value="1" <?= $proposal->payment_message == '1' ? 'selected' : '' ?>>Pendente</option>
                     <option value="2" <?= $proposal->payment_message == '2' ? 'selected' : '' ?>>Pagamento Aprovado</option>
                     <option value="3" disabled>Negado</option>
                     <option value="4" disabled>Expirado</option>
@@ -170,7 +170,7 @@
             status: 1,
             message: 'Pendente',
             bankMessage: 'Pendente',
-            description: 'Aguardando processamento do pagamento.'
+            description: 'Indica que o pagamento ainda está sendo processado ou está pendente de alguma etapa por parte do portador. Exemplo: uma transação de boleto com status Pendente indica que o boleto não teve o status alterado pelo comprador.'
         },
         '2': {
             status: 2,
